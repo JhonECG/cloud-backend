@@ -1,0 +1,25 @@
+service: diagram-backend-api
+
+org: jhonchilo
+
+provider:
+  name: aws
+  runtime: python3.13
+  memorySize: 512
+  timeout: 20
+  region: us-east-1
+  iam:
+    role: arn:aws:iam::606646193182:role/LabRole
+
+functions:
+  generateDiagram:
+    handler: server.generate_diagram
+    package:
+      include:
+        - ./**
+    events:
+      - http:
+          path: generate
+          method: post
+          cors: true
+          integration: lambda
